@@ -6,7 +6,21 @@
   </head>
   <body ng-app="flapperNews" ng-controller="MainCtrl">
     <div ng-repeat="post in posts |  orderBy: '-upvotes' ">
-      {{post.title}} - upvotes: {{post.upvotes}}
+      <span ng-click ="incrementUpvotes(post)">plus</span>
+      <span ng-click ="decrementUpvotes(post)">min</span>
+      <a href="{{post.link}}" ng-show="post.link">
+        {{post.title}}
+      </a>
+      <span ng-hide="post.link">
+        {{post.title}}  
+      </span>
+        - upvotes: {{post.upvotes}}
     </div>
-  </body>
+
+    <form ng-submit="addPost()">
+      <input type="text" placeholder= "Title" ng-model="title" />
+      <input type="text" placeholder= "Link" ng-model="link" />
+      <button type="submit">Post</button>
+    </form>
+   </body>
 </html>
