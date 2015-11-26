@@ -18,14 +18,14 @@ function($stateProvider,$urlRouterProvider) {
 		});
 
 	$urlRouterProvider.otherwise('home');
-}])
+}]);
 
 app.factory('posts', [function(){
 	var o = {
 		posts: []
 	};
 	return o;
-}])
+}]);
 
 app.controller('MainCtrl', [
 '$scope',
@@ -57,7 +57,7 @@ function($scope, posts){
 	$scope.decrementUpvotes = function(post) {
 		post.upvotes -=1;
 	};
-}])
+}]);
 
 app.controller('PostsCtrl', [
 '$scope',
