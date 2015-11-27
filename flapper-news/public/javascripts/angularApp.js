@@ -35,6 +35,19 @@ app.factory('posts', ['$http', function($http){
 		});
 	};
 
+	//Posts creeren
+	o.create = function(post) {
+		return $http.post('/posts', post).success(function(data) {
+			o.posts.push(data);
+		});
+	};
+	//Bijhouden van de upvotes in
+	o.upvote = function(post) {
+		return $http.put('/posts/' + post._id + '/upvote').success(function(data) {
+			post.upvotes +=1;
+		});
+	};
+
 	return o;
 }]);
 
@@ -48,21 +61,17 @@ function($scope, posts){
 
     $scope.addPost = function() {
 		if(!$scope.title || $scope.title === '') { return; }
-		$scope.posts.push({
+		posts.create({
 			title: $scope.title,
 			link: $scope.link,
-			upvotes:1,
-			comments: [
-				{author: 'Joe', body: 'Cool post', upvotes:0},
-				{author: 'Bob', body: 'No post', upvotes:0}
-			]
+			
 		});
 		$scope.title='';
 		$scope.link='';
 	};
 
 	$scope.incrementUpvotes = function(post) {
-		post.upvotes +=1;
+		posts.upvote(post);
 	};
 
 	$scope.decrementUpvotes = function(post) {
