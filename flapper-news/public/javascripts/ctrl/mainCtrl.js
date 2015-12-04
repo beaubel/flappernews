@@ -1,10 +1,12 @@
 app.controller('MainCtrl',  [
 '$scope',
 'posts',
-function($scope, posts){
-	$scope.test = 'Hello world!';
+'auth',
+function($scope, posts, auth){
+	
 
 	$scope.posts = posts.posts;
+	$scope.isLoggedIn = auth.isLoggedIn;
 
     $scope.addPost = function() {
 		if(!$scope.title || $scope.title === '') { return; }
@@ -15,7 +17,7 @@ function($scope, posts){
 		});
 		$scope.title='';
 		$scope.link='';
-		$scope.isLoggedIn = auth.isLoggedIn;
+		
 	};
 
 	$scope.incrementUpvotes = function(post) {
