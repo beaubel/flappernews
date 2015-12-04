@@ -13,20 +13,16 @@ function($scope, posts, auth){
 		posts.create({
 			title: $scope.title,
 			link: $scope.link,
-			
 		});
 		$scope.title='';
 		$scope.link='';
-		
 	};
 
-	$scope.incrementUpvotes = function(post) {
+	$scope.upvote = function(post) {
 		posts.upvote(post);
 	};
 
-	$scope.decrementUpvotes = function(post) {
+	$scope.downvote = function(post) {
 		posts.downvote(post);
 	};
-
-
 }]);

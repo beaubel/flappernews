@@ -8,7 +8,6 @@ function($scope, $stateParams, posts, post, auth) {
 	$scope.post = post;
 	$scope.isLoggedIn = auth.isLoggedIn;
 
-
 	$scope.addComment = function(){
 		if($scope.body === '') { return; }
 		posts.addComment(post._id, {
@@ -18,11 +17,13 @@ function($scope, $stateParams, posts, post, auth) {
 			$scope.post.comments.push(comment);
 		});
 		$scope.body = '';
+	};
 
-		
-};
-
-	$scope.incrementUpvotes = function(comment) {
+	$scope.upvote = function(comment) {
 		posts.upvoteComment(post, comment);
+	};
+
+	$scope.downvote = function(comment) {
+		posts.downvoteComment(post, comment);
 	};
 }]);

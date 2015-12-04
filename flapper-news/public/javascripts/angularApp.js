@@ -51,7 +51,6 @@ function($stateProvider,$urlRouterProvider) {
 	$urlRouterProvider.otherwise('home');
 }]);
 
-
 app.factory('auth', ['$http', '$window', function($http, $window){
 	var auth = {};
 	
@@ -103,8 +102,6 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 	return auth;
 }]);
 
-
-
 app.controller('NavCtrl', [
 '$scope',
 'auth',
@@ -118,6 +115,7 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
 	var o = {
 		posts: []
 	};
+	
 	o.getAll = function() {
 		return $http.get('/posts').success(function(data) {
 			angular.copy(data, o.posts);
@@ -138,12 +136,21 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
 			o.posts.push(data);
 		});
 	};
-	//Bijhouden van de upvotes in
+
+	//Bijhouden van de upvotes
 	o.upvote = function(post) {
 		return $http.put('/posts/' + post._id + '/upvote', null, {
 			headers: {Authorization: 'Bearer '+auth.getToken()}
 		}).success(function(data){
 			post.upvotes += 1;
+		});
+	};
+
+	o.downvote = function(post) {
+		return $http.put('/posts/' + post._id + '/downvote', null, {
+			headers: {Authorization: 'Bearer '+auth.getToken()}
+		}).success(function(data){
+			post.upvotes -= 1;
 		});
 	};
 
@@ -167,13 +174,7 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
 		}).success(function(data){
 			comment.upvotes -= 1;
 		});
-	};	
-
-	/*o.downvote = function(post) {
-		return $http.put('/posts/' + post._id + '/downvote').success(function(data) {
-			post.upvotes -=2;
-		});
-	};*/
+	};
 
 	return o;
 }]);

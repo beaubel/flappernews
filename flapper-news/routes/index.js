@@ -20,14 +20,11 @@ router.post('/register', function(req, res, next){
   }
 
   var user = new User();
-
   user.username = req.body.username;
-
   user.setPassword(req.body.password);
 
   user.save(function (err){
     if(err){ return next(err); }
-
     return res.json({token: user.generateJWT()});
   });
 });
@@ -112,9 +109,25 @@ router.put('/posts/:post/upvote', auth, function(req, res, next) {
   });
 });
 
+router.put('/posts/:post/downvote', auth, function(req, res, next) {
+  req.post.downvote(function(err, post){
+    if (err) { return next(err); }
+
+    res.json(post);
+  });
+});
+
 
 router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
   req.comment.upvote(function(err, comment){
+    if (err) { return next(err); }
+
+    res.json(comment);
+  });
+});
+
+router.put('/posts/:post/comments/:comment/downvote', auth, function(req, res, next) {
+  req.comment.downvote(function(err, comment){
     if (err) { return next(err); }
 
     res.json(comment);
@@ -138,4 +151,5 @@ router.post('/posts/:post/comments', auth, function(req, res, next) {
     });
   });
 });
+
 module.exports = router;
