@@ -192,7 +192,7 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
 	return o;
 }]);
 
-app.controller('MainCtrl', [
+app.controller('MainCtrl',  [
 '$scope',
 'posts',
 function($scope, posts){
@@ -209,6 +209,7 @@ function($scope, posts){
 		});
 		$scope.title='';
 		$scope.link='';
+		$scope.isLoggedIn = auth.isLoggedIn;
 	};
 
 	$scope.incrementUpvotes = function(post) {
@@ -218,6 +219,8 @@ function($scope, posts){
 	$scope.decrementUpvotes = function(post) {
 		posts.downvote(post);
 	};
+
+
 }]);
 
 app.controller('PostsCtrl', [
@@ -225,8 +228,11 @@ app.controller('PostsCtrl', [
 '$stateParams',
 'posts',
 'post',
-function($scope, $stateParams, posts, post) {
+'auth',
+function($scope, $stateParams, posts, post, auth) {
 	$scope.post = post;
+	$scope.isLoggedIn = auth.isLoggedIn;
+
 
 	$scope.addComment = function(){
 		if($scope.body === '') { return; }
@@ -237,6 +243,8 @@ function($scope, $stateParams, posts, post) {
 			$scope.post.comments.push(comment);
 		});
 		$scope.body = '';
+
+		$scope.isLoggedIn = auth.isLoggedIn;
 };
 
 	$scope.incrementUpvotes = function(comment) {
